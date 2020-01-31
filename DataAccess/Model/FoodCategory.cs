@@ -1,12 +1,12 @@
-﻿using DataAccess.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using DataAccess.Common;
 
 namespace DataAccess.Model
 {
-    public class RestaurantFoodComment : IAuditable
+    public class FoodCategory : IAuditable
     {
         #region IAuditableProperties
 
@@ -22,18 +22,18 @@ namespace DataAccess.Model
         public bool IsDeleted { get; set; }
 
         #endregion
-        [StringLength(1000)]
-        public string Text { get; set; }
-        public short Score { get; set; }
-        public int ParentId { get; set; }
+        public string DefaultImageAlt { get; set; }
+
+        [StringLength(50)]
+        public string Title { get; set; }
 
         #region Relations
 
-        public RestaurantFoodComment Parent { get; set; }
         public User CreatedByUser { get; set; }
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
+        public ICollection<Food> Foods { get; set; }
 
         #endregion
     }

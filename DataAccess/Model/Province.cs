@@ -1,12 +1,11 @@
-﻿using DataAccess.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using DataAccess.Common;
 
 namespace DataAccess.Model
 {
-    public class RestaurantFoodComment : IAuditable
+    public class Province : IAuditable
     {
         #region IAuditableProperties
 
@@ -22,14 +21,13 @@ namespace DataAccess.Model
         public bool IsDeleted { get; set; }
 
         #endregion
-        [StringLength(1000)]
-        public string Text { get; set; }
-        public short Score { get; set; }
-        public int ParentId { get; set; }
+
+        [StringLength(50)]
+        public string Title { get; set; }
 
         #region Relations
 
-        public RestaurantFoodComment Parent { get; set; }
+        public ICollection<City> Cities { get; set; }
         public User CreatedByUser { get; set; }
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }

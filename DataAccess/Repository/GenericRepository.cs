@@ -12,7 +12,7 @@ namespace DataAccess.Repository
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, IAuditable
     {
         protected DatabaseContext _context;
-        private bool disposed = false;
+        private bool disposed = true;
 
         public GenericRepository(DatabaseContext context)
         {
@@ -31,13 +31,13 @@ namespace DataAccess.Repository
         /// </returns>
         public virtual T Add(T entity, int createdById)
         {
-            entity.CreatedBy = createdById;
+            entity.CreatedByUserId = createdById;
             entity.CreatedOn = DateTime.Now;
 
-            entity.UpdatedBy = createdById;
+            entity.UpdatedByUserId = createdById;
             entity.UpdatedOn = entity.CreatedOn;
 
-            entity.IsDeleted = true;
+            entity.IsDeleted = false;
 
             _context.Set<T>().Add(entity);
             Save();
@@ -55,13 +55,13 @@ namespace DataAccess.Repository
         /// </returns>
         public virtual async Task<T> AddAsync(T entity, int createdById)
         {
-            entity.CreatedBy = createdById;
+            entity.CreatedByUserId = createdById;
             entity.CreatedOn = DateTime.Now;
 
-            entity.UpdatedBy = createdById;
+            entity.UpdatedByUserId = createdById;
             entity.UpdatedOn = entity.CreatedOn;
 
-            entity.IsDeleted = true;
+            entity.IsDeleted = false;
 
             await _context.Set<T>().AddAsync(entity);
             await SaveAsync();
@@ -263,7 +263,7 @@ namespace DataAccess.Repository
         {
 
             var entities = _context.Set<T>()
-                .Where(e => e.IsDeleted == true);
+                .Where(e => e.IsDeleted == false);
 
             return entities;
 
@@ -278,7 +278,7 @@ namespace DataAccess.Repository
         public virtual async Task<ICollection<T>> GetAllAsync()
         {
             var entities = _context.Set<T>()
-                .Where(e => e.IsDeleted == true)
+                .Where(e => e.IsDeleted == false)
                 .ToListAsync();
 
             return await entities;
@@ -293,7 +293,7 @@ namespace DataAccess.Repository
         /// </returns>
         public virtual T Get(int id)
         {
-            var entity = _context.Set<T>().FirstOrDefault(e => e.Id == id && e.IsDeleted == true);
+            var entity = _context.Set<T>().FirstOrDefault(e => e.Id == id && e.IsDeleted == false);
 
             return entity;
         }
@@ -308,7 +308,7 @@ namespace DataAccess.Repository
         public virtual async Task<T> GetAsync(int id)
         {
             var entity = _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id &&
-                        e.IsDeleted == true);
+                        e.IsDeleted == false);
 
             return await entity;
         }
@@ -324,7 +324,7 @@ namespace DataAccess.Repository
         {
             var t = _context.Set<T>().FirstOrDefault(match);
 
-            return t.IsDeleted == true ? t : null;
+            return t.IsDeleted == false ? t : null;
         }
 
         /// <summary>
@@ -338,7 +338,7 @@ namespace DataAccess.Repository
         {
             var t = await _context.Set<T>().FirstOrDefaultAsync(match);
 
-            return t.IsDeleted == true ? t : null;
+            return t.IsDeleted == false ? t : null;
 
         }
 
@@ -353,7 +353,7 @@ namespace DataAccess.Repository
         {
             return _context.Set<T>()
                 .Where(match)
-                .Where(t => t.IsDeleted == true)
+                .Where(t => t.IsDeleted == false)
                 .ToList();
         }
 
@@ -368,7 +368,7 @@ namespace DataAccess.Repository
         {
             return await _context.Set<T>()
                 .Where(match)
-                .Where(t => t.IsDeleted == true)
+                .Where(t => t.IsDeleted == false)
                 .ToListAsync();
         }
 
@@ -383,7 +383,7 @@ namespace DataAccess.Repository
         {
             var query = _context.Set<T>()
                                 .Where(predicate)
-                                .Where(t => t.IsDeleted == true);
+                                .Where(t => t.IsDeleted == false);
             return query;
         }
 
@@ -398,7 +398,7 @@ namespace DataAccess.Repository
         {
             var query = await _context.Set<T>()
                                       .Where(predicate)
-                                      .Where(t => t.IsDeleted == true)
+                                      .Where(t => t.IsDeleted == false)
                                       .ToListAsync();
             return query;
         }
@@ -424,9 +424,9 @@ namespace DataAccess.Repository
         /// </returns>
         public int Count()
         {
-            return _context.Set<T>()
-                .Where(t => t.IsDeleted == true)
-                .Count();
+            return _context
+                .Set<T>()
+                .Count(t => t.IsDeleted == false);
         }
 
         /// <summary>
@@ -437,9 +437,9 @@ namespace DataAccess.Repository
         /// </returns>
         public async Task<int> CountAsync()
         {
-            return await _context.Set<T>()
-                .Where(t => t.IsDeleted == true)
-                .CountAsync();
+            return await _context
+                .Set<T>()
+                .CountAsync(t => t.IsDeleted == false);
         }
 
         /// <summary>
@@ -450,7 +450,7 @@ namespace DataAccess.Repository
         public bool Exists(int id)
         {
             return _context.Set<T>()
-                .Where(t => t.IsDeleted == true)
+                .Where(t => t.IsDeleted == false)
                 .Any(t => t.Id == id);
         }
 
@@ -469,10 +469,10 @@ namespace DataAccess.Repository
         /// </returns>
         public virtual T Update(T newValue, T oldValue, int updatedById)
         {
-            newValue.CreatedBy = oldValue.CreatedBy;
+            newValue.CreatedByUserId = oldValue.CreatedByUserId;
             newValue.CreatedOn = oldValue.CreatedOn;
 
-            newValue.UpdatedBy = updatedById;
+            newValue.UpdatedByUserId = updatedById;
             newValue.UpdatedOn = DateTime.Now;
 
             _context.Entry(oldValue).CurrentValues.SetValues(newValue);
@@ -492,10 +492,10 @@ namespace DataAccess.Repository
         /// </returns>
         public virtual async Task<T> UpdateAsync(T newValue, T oldValue, int updatedById)
         {
-            newValue.CreatedBy = oldValue.CreatedBy;
+            newValue.CreatedByUserId = oldValue.CreatedByUserId;
             newValue.CreatedOn = oldValue.CreatedOn;
 
-            newValue.UpdatedBy = updatedById;
+            newValue.UpdatedByUserId = updatedById;
             newValue.UpdatedOn = DateTime.Now;
 
             _context.Entry(oldValue).CurrentValues.SetValues(newValue);
@@ -517,10 +517,10 @@ namespace DataAccess.Repository
         {
             var oldValue = Get(newValue.Id);
 
-            newValue.CreatedBy = oldValue.CreatedBy;
+            newValue.CreatedByUserId = oldValue.CreatedByUserId;
             newValue.CreatedOn = oldValue.CreatedOn;
 
-            newValue.UpdatedBy = updatedById;
+            newValue.UpdatedByUserId = updatedById;
             newValue.UpdatedOn = DateTime.Now;
 
             _context.Entry(oldValue).CurrentValues.SetValues(newValue);
@@ -542,10 +542,10 @@ namespace DataAccess.Repository
         {
             var oldValue = await GetAsync(newValue.Id);
 
-            newValue.CreatedBy = oldValue.CreatedBy;
+            newValue.CreatedByUserId = oldValue.CreatedByUserId;
             newValue.CreatedOn = oldValue.CreatedOn;
 
-            newValue.UpdatedBy = updatedById;
+            newValue.UpdatedByUserId = updatedById;
             newValue.UpdatedOn = DateTime.Now;
 
             _context.Entry(oldValue).CurrentValues.SetValues(newValue);
@@ -564,7 +564,7 @@ namespace DataAccess.Repository
         public void Disable(int id, int updatedById)
         {
             var entity = Get(id);
-            entity.IsDeleted = false;
+            entity.IsDeleted = true;
             Update(entity, updatedById);
         }
 
@@ -577,7 +577,7 @@ namespace DataAccess.Repository
         public async Task DisableAsync(int id, int updatedById)
         {
             var entity = Get(id);
-            entity.IsDeleted = false;
+            entity.IsDeleted = true;
             await UpdateAsync(entity, updatedById);
         }
 
@@ -590,7 +590,7 @@ namespace DataAccess.Repository
         public void Enable(int id, int updatedById)
         {
             var entity = Get(id);
-            entity.IsDeleted = true;
+            entity.IsDeleted = false;
             Update(entity, updatedById);
         }
 
@@ -603,7 +603,7 @@ namespace DataAccess.Repository
         public async Task EnableAsync(int id, int updatedById)
         {
             var entity = Get(id);
-            entity.IsDeleted = true;
+            entity.IsDeleted = false;
             await UpdateAsync(entity, updatedById);
         }
 
@@ -686,13 +686,13 @@ namespace DataAccess.Repository
                 {
                     _context.Dispose();
                 }
-                this.disposed = true;
+                this.disposed = false;
             }
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            Dispose(false);
             GC.SuppressFinalize(this);
         }
 
