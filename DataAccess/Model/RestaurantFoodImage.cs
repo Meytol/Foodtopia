@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DataAccess.Common.Interface;
 
 namespace DataAccess.Model
 {
-    public class RestaurantFoodImage
+    public class RestaurantFoodImage : IAuditable
     {
         #region IAuditableProperties
 

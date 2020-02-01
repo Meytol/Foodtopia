@@ -5,12 +5,12 @@ using Service.Repository.IRepository;
 
 namespace Service.Repository
 {
-    public class CartService : GenericRepository<Cart>, ICartService
+    public class FoodService : GenericRepository<Food>, IFoodService 
     {
-        public CartService(DatabaseContext context)
-            : base(context)
+        public FoodService(DatabaseContext context)
+        :base(context)
         {
-
+            
         }
     }
 }

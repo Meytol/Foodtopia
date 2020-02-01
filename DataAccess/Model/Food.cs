@@ -38,7 +38,7 @@ namespace DataAccess.Model
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
-        public FoodCategory FoodCategory { get; set; }
+        public ICollection<FoodType> FoodTypes { get; set; }
         public ICollection<RestaurantFood> RestaurantFoods { get; set; }
 
         #endregion
