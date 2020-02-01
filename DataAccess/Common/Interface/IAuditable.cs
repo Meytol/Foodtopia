@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using DataAccess.Model;
 
-namespace DataAccess.Common
+namespace DataAccess.Common.Interface
 {
     public interface IAuditable
     {

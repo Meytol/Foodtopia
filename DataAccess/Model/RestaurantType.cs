@@ -1,4 +1,4 @@
-﻿using DataAccess.Common;
+﻿using DataAccess.Common.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

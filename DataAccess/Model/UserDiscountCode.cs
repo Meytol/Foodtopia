@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using DataAccess.Common;
+using DataAccess.Common.Interface;
 using DataAccess.Common.Enum;
 
 namespace DataAccess.Model

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DataAccess.Common;
+using DataAccess.Common.Interface;
 
 namespace DataAccess.Model
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using DataAccess.Common;
+using DataAccess.Common.Interface;
 
 namespace DataAccess.Model
 {
