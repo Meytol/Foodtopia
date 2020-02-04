@@ -22,6 +22,9 @@ namespace DataAccess.Model
         public bool IsDeleted { get; set; }
 
         #endregion
+
+        public int IsConfirmed { get; set; }
+
         [StringLength(1000)]
         public string Text { get; set; }
         public short Score { get; set; }

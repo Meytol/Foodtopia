@@ -14,7 +14,7 @@ namespace DataAccess.Repository
         protected DatabaseContext _context;
         private bool disposed = true;
 
-        public GenericRepository(DatabaseContext context)
+        protected GenericRepository(DatabaseContext context)
         {
             _context = context;
         }
