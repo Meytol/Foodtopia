@@ -34,6 +34,7 @@ namespace DataAccess.Context
         public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<UserDiscountCode> UserDiscountCodes { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         #endregion
     }
