@@ -4,7 +4,6 @@
     {
         AllowAnanymos,
         LogedIn,
-        NeedAuthorize, // Default
-        AuthorizeWithRole
+        NeedAuthorize // Default
     }
 }

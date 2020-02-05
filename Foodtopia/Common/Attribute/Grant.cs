@@ -16,7 +16,6 @@ namespace Foodtopia.Common.Attribute
     public class Grant : ActionFilterAttribute
     {
         private readonly AuthorizeLevel _grantType;
-        private readonly string _role;
         private HttpContext _httpContext;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -29,10 +28,9 @@ namespace Foodtopia.Common.Attribute
         public Grant()
         {
             _grantType = AuthorizeLevel.NeedAuthorize;
-            _role = string.Empty;
         }
 
-        public Grant(AuthorizeLevel grantType, string roleName = "")
+        public Grant(AuthorizeLevel grantType)
         {
             _grantType = grantType;
 
@@ -46,7 +44,6 @@ namespace Foodtopia.Common.Attribute
             else
             {
                 _grantType = grantType;
-                _role = roleName;
             }
 
         }
@@ -62,13 +59,13 @@ namespace Foodtopia.Common.Attribute
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if (_grantType == AuthorizeLevel.AllowAnanymos)
+                return;
+
             _httpContext = _httpContextAccessor.HttpContext;
 
             try
             {
-                if (_grantType == AuthorizeLevel.AllowAnanymos)
-                    return;
-
                 var userId = 0;
                 var path = _httpContextAccessor.HttpContext.Request.Path.Value;
 
@@ -111,16 +108,7 @@ namespace Foodtopia.Common.Attribute
                     userId = userCookie.UserId;
                 }
 
-
                 if (_grantType == AuthorizeLevel.LogedIn)
-                    return;
-
-                var roles = userSession.Roles;
-
-                if (roles.Any(r => r.ToLower() == "administrator"))
-                    return;
-
-                if (_grantType == AuthorizeLevel.AuthorizeWithRole && roles.Any(r => r.ToLower() == _role.ToLower()))
                     return;
 
                 var areaTitle = filterContext.RouteData.DataTokens["Area"].ToString();
@@ -135,7 +123,7 @@ namespace Foodtopia.Common.Attribute
                     return;
                 }
 
-                if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
+                if (IsAjaxRequest)
                 {
                     filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                     return;
@@ -149,6 +137,20 @@ namespace Foodtopia.Common.Attribute
                 filterContext.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
                 filterContext.Result = new RedirectResult("/Account/Logout");
             }
+        }
+        
+        private bool IsAjaxRequest()
+        {
+            if (_httpContext == null || _httpContext.Requset == null)
+                throw new ArgumentNullException("Http Requset");
+
+            if (_httpContext.Request["X-Requested-With"] == "XMLHttpRequest")
+                return true;
+
+            if (_httpContext.Request != null)
+                return request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+            return false;
         }
     }
 }

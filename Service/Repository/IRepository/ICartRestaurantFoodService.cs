@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Service.Repository.IRepository
 {
-    public interface ICartRestaurantFoodService
+    public interface ICartRestaurantFoodService : IGenericRepository<CartRestaurantFood>
     {
     }
 }
