@@ -6,7 +6,7 @@ using DataAccess.Common.Interface;
 
 namespace DataAccess.Model
 {
-    public class AuthenticationCode : IAuditable
+    public class EmailUser : IAuditable
     {
         #region IAuditableProperties
 
@@ -23,20 +23,12 @@ namespace DataAccess.Model
 
         #endregion
 
-        [StringLength(10)]
-        public string Code { get; set; }
-        public TimeSpan ExpiryDurationTime { get; set; }
-
-        public bool IsUse { get; set; } = false;
-
         #region Relations
 
         public User CreatedByUser { get; set; }
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
-        public ApplicationAction Parent { get; set; }
-        public ICollection<RoleAction> RoleActions { get; set; }
 
         #endregion
     }

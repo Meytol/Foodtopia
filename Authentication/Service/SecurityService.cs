@@ -1,11 +1,15 @@
-﻿using Authentication.Service.IService;
+﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using Authentication.Service.IService;
 using System.Threading.Tasks;
 
 namespace Authentication.Service
 {
     public class SecurityService : ISecurityService
     {
-        public EncryptionService()
+        public SecurityService()
         {
 
         }
@@ -21,7 +25,7 @@ namespace Authentication.Service
         {
             return string.Join(separator.ToString(), data.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
         }
-        private String GetKey(string n, Encoding e)
+        public String GetKey(string n, Encoding e)
         {
             char[] x = new char[36];
             var bytes = ToByteArray(n, e);
@@ -120,7 +124,7 @@ namespace Authentication.Service
             return Encoding.UTF8.GetString(decryptedData);
         }
 
-        private string GetKey(string n, string enoding)
+        public string GetKey(string n, string enoding)
         {
             if (string.Compare(enoding, "ascii", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -141,7 +145,7 @@ namespace Authentication.Service
             throw new Exception("Unsupported encoding");
         }
 
-        private async Task<T> Decrypt<T>(string cipherText, string key)
+        public async Task<T> Decrypt<T>(string cipherText, string key)
         {
             throw new System.NotImplementedException();
         }

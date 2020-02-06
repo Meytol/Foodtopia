@@ -22,8 +22,6 @@ namespace Foodtopia.Common.Attribute
         private readonly IUserCookieService _userCookieService;
         private readonly IUserSessionService _userSessionService;
         private readonly IAuthorizeService _authorizeService;
-        private readonly IUserService _userService;
-
 
         public Grant()
         {
@@ -33,19 +31,6 @@ namespace Foodtopia.Common.Attribute
         public Grant(AuthorizeLevel grantType)
         {
             _grantType = grantType;
-
-            if (grantType != AuthorizeLevel.AuthorizeWithRole)
-                return;
-
-            if (string.IsNullOrWhiteSpace(roleName))
-            {
-                _grantType = AuthorizeLevel.NeedAuthorize;
-            }
-            else
-            {
-                _grantType = grantType;
-            }
-
         }
 
         public Grant(IHttpContextAccessor httpContextAccessor, IUserCookieService userCookieService, IUserService userService, IUserSessionService userSessionService, IAuthorizeService authorizeService)
@@ -123,7 +108,7 @@ namespace Foodtopia.Common.Attribute
                     return;
                 }
 
-                if (IsAjaxRequest)
+                if (IsAjaxRequest())
                 {
                     filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                     return;
@@ -138,17 +123,14 @@ namespace Foodtopia.Common.Attribute
                 filterContext.Result = new RedirectResult("/Account/Logout");
             }
         }
-        
+
         private bool IsAjaxRequest()
         {
-            if (_httpContext == null || _httpContext.Requset == null)
+            if (_httpContext?.Request == null)
                 throw new ArgumentNullException("Http Requset");
 
-            if (_httpContext.Request["X-Requested-With"] == "XMLHttpRequest")
-                return true;
-
             if (_httpContext.Request != null)
-                return request.Headers["X-Requested-With"] == "XMLHttpRequest";
+                return _httpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
             return false;
         }

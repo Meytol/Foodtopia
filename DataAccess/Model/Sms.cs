@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using DataAccess.Common.Interface;
 
 namespace DataAccess.Model
 {
-    public class AuthenticationCode : IAuditable
+    public class Sms : IAuditable
     {
         #region IAuditableProperties
 
@@ -23,11 +21,7 @@ namespace DataAccess.Model
 
         #endregion
 
-        [StringLength(10)]
-        public string Code { get; set; }
-        public TimeSpan ExpiryDurationTime { get; set; }
-
-        public bool IsUse { get; set; } = false;
+        public string Body { get; set; }
 
         #region Relations
 
@@ -35,8 +29,6 @@ namespace DataAccess.Model
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
-        public ApplicationAction Parent { get; set; }
-        public ICollection<RoleAction> RoleActions { get; set; }
 
         #endregion
     }
