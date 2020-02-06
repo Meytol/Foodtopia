@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Service.Repository.IRepository
 {
-    interface ICartService : IGenericRepository<Cart>
+    public interface ICartService : IGenericRepository<Cart>
     {
     }
 }

@@ -33,12 +33,11 @@ namespace Foodtopia.Common.Attribute
             _grantType = grantType;
         }
 
-        public Grant(IHttpContextAccessor httpContextAccessor, IUserCookieService userCookieService, IUserService userService, IUserSessionService userSessionService, IAuthorizeService authorizeService)
+        public Grant(IHttpContextAccessor httpContextAccessor, IUserCookieService userCookieService, IUserSessionService userSessionService, IAuthorizeService authorizeService)
         {
             _httpContextAccessor = httpContextAccessor;
             _userCookieService = userCookieService;
             _userSessionService= userSessionService;
-            _userService = userService;
             _authorizeService = authorizeService;
         }
 

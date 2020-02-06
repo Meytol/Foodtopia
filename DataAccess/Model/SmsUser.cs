@@ -21,13 +21,15 @@ namespace DataAccess.Model
 
         #endregion
 
-        
+        public int SmsId { get; set; }
+
         #region Relations
 
         public User CreatedByUser { get; set; }
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
+        public Sms Sms { get; set; }
 
         #endregion
     }

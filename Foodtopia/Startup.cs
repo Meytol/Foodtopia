@@ -82,7 +82,7 @@ namespace Foodtopia
 
             #endregion
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
         }
 
@@ -96,6 +96,7 @@ namespace Foodtopia
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -103,18 +104,22 @@ namespace Foodtopia
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            //app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            //app.UseEndpoints(endpoints =>
             //{
-            //    routes.MapRoute(
+            //    endpoints.MapControllerRoute(
             //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
             //});
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
             });
         }

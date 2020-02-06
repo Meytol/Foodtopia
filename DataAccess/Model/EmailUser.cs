@@ -23,12 +23,15 @@ namespace DataAccess.Model
 
         #endregion
 
+        public int EmailId { get; set; }
+
         #region Relations
 
         public User CreatedByUser { get; set; }
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
+        public Email Email { get; set; }
 
         #endregion
     }

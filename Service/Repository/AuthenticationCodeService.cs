@@ -3,10 +3,11 @@ using DataAccess.Model;
 using DataAccess.Repository;
 using Service.Repository.IRepository;
 using System;
+using System.Linq;
 
 namespace Service.Repository
 {
-    public class AuthenticationCodeService : GenericService<AuthenticationCode>, IAuthenticationCodeService
+    public class AuthenticationCodeService : GenericRepository<AuthenticationCode>, IAuthenticationCodeService
     {
         private readonly Random _random = new Random();
 
