@@ -1,14 +1,13 @@
-﻿using Authentication.Service.IService;
-using Authentication.Common;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Linq;
+﻿using System;
 using System.Net;
+using Authentication.Common;
+using Authentication.Service.IService;
+using DataAccess.Common.Enum;
 using Foodtopia.MiniServices.IService;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Service.Repository.IRepository;
-using IUserCookieService = Foodtopia.MiniServices.IService.IUserCookieService;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Foodtopia.Common.Attribute
 {
@@ -47,10 +46,10 @@ namespace Foodtopia.Common.Attribute
                 return;
 
             _httpContext = _httpContextAccessor.HttpContext;
+            var userId = 0;
 
             try
             {
-                var userId = 0;
                 var path = _httpContextAccessor.HttpContext.Request.Path.Value;
 
                 var userSession = _userCookieService.Get(_httpContext);
@@ -68,11 +67,13 @@ namespace Foodtopia.Common.Attribute
                         if (user != null)
                         {
                             _userSessionService.Update(_httpContext);
+                            userId = user.Id;
                         }
                         else
                         {
-                            filterContext.Result = new RedirectResult("/Account/Logout");
-                            return;
+                            throw new UnauthorizedAccessException();
+                            //filterContext.Result = new RedirectResult("/Account/Logout");
+                            //return;
                         }
                     }
                     else // User Cookie is null or it isn't valid
@@ -80,7 +81,6 @@ namespace Foodtopia.Common.Attribute
                         filterContext.Result = new RedirectResult("/Account/LogIn?returnUrl=" + path);
                         return;
                     }
-
                 }
                 else if (userCookie == null) // both of User Session is not null but User Cookie is null 
                 {
@@ -99,27 +99,33 @@ namespace Foodtopia.Common.Attribute
                 var controllerTitle = filterContext.RouteData.Values["Controller"].ToString();
                 var actionTitle = filterContext.RouteData.Values["Action"].ToString();
 
-                var hasAccess = _authorizeService.CheckUserPermision(areaTitle: areaTitle, controllerTitle: controllerTitle, actionTitle: actionTitle, userId: userId);
+                var hasAccess = _authorizeService.CheckUserPermision(areaTitle: areaTitle,
+                    controllerTitle: controllerTitle, actionTitle: actionTitle, userId: userId);
 
-                if (hasAccess)
-                {
-                    _userCookieService.AddExpireTime(_httpContext);
-                    return;
-                }
+                if (!hasAccess)
+                    throw new UnauthorizedAccessException();
+                
+                _userCookieService.AddExpireTime(_httpContext);
 
+            }
+            catch (UnauthorizedAccessException)
+            {
                 if (IsAjaxRequest())
                 {
-                    filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-                    return;
+                    filterContext.Result = userId == 0 
+                        ? new JsonResult(new { HttpStatusCode.Unauthorized }) 
+                        : new JsonResult(new { HttpStatusCode.Forbidden });
                 }
-
-                filterContext.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
-                filterContext.Result = new RedirectResult("/Error/ForbidenAccess");
+                else
+                {
+                    filterContext.HttpContext.Response.StatusCode = userId == 0
+                        ? (int) System.Net.HttpStatusCode.Unauthorized
+                        : (int) System.Net.HttpStatusCode.Forbidden;
+                }
             }
             catch (Exception)
             {
                 filterContext.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
-                filterContext.Result = new RedirectResult("/Account/Logout");
             }
         }
 

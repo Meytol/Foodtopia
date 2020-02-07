@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Foodtopia.Common.Controllers;
+﻿using Foodtopia.Common.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Foodtopia.Areas.Account.Controllers
