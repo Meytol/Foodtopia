@@ -263,7 +263,7 @@ namespace DataAccess.Repository
         {
 
             var entities = _context.Set<T>()
-                .Where(e => e.IsDeleted == false);
+                .Where(!IsDeleted);
 
             return entities;
 
@@ -278,7 +278,7 @@ namespace DataAccess.Repository
         public virtual async Task<ICollection<T>> GetAllAsync()
         {
             var entities = _context.Set<T>()
-                .Where(e => e.IsDeleted == false)
+                .Where(!IsDeleted)
                 .ToListAsync();
 
             return await entities;
@@ -293,7 +293,7 @@ namespace DataAccess.Repository
         /// </returns>
         public virtual T Get(int id)
         {
-            var entity = _context.Set<T>().FirstOrDefault(e => e.Id == id && e.IsDeleted == false);
+            var entity = _context.Set<T>().FirstOrDefault(e => e.Id == id && !IsDeleted);
 
             return entity;
         }
@@ -307,8 +307,7 @@ namespace DataAccess.Repository
         /// </returns>
         public virtual async Task<T> GetAsync(int id)
         {
-            var entity = _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id &&
-                        e.IsDeleted == false);
+            var entity = _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id && !IsDeleted);
 
             return await entity;
         }
@@ -324,7 +323,7 @@ namespace DataAccess.Repository
         {
             var t = _context.Set<T>().FirstOrDefault(match);
 
-            return t.IsDeleted == false ? t : null;
+            return !IsDeleted ? t : null;
         }
 
         /// <summary>
@@ -338,7 +337,7 @@ namespace DataAccess.Repository
         {
             var t = await _context.Set<T>().FirstOrDefaultAsync(match);
 
-            return t.IsDeleted == false ? t : null;
+            return !IsDeleted ? t : null;
 
         }
 
@@ -353,7 +352,7 @@ namespace DataAccess.Repository
         {
             return _context.Set<T>()
                 .Where(match)
-                .Where(t => t.IsDeleted == false)
+                .Where(!IsDeleted)
                 .ToList();
         }
 
@@ -368,7 +367,7 @@ namespace DataAccess.Repository
         {
             return await _context.Set<T>()
                 .Where(match)
-                .Where(t => t.IsDeleted == false)
+                .Where(!IsDeleted)
                 .ToListAsync();
         }
 
@@ -383,7 +382,7 @@ namespace DataAccess.Repository
         {
             var query = _context.Set<T>()
                                 .Where(predicate)
-                                .Where(t => t.IsDeleted == false);
+                                .Where(!IsDeleted);
             return query;
         }
 
@@ -398,7 +397,7 @@ namespace DataAccess.Repository
         {
             var query = await _context.Set<T>()
                                       .Where(predicate)
-                                      .Where(t => t.IsDeleted == false)
+                                      .Where(!IsDeleted)
                                       .ToListAsync();
             return query;
         }
@@ -426,7 +425,7 @@ namespace DataAccess.Repository
         {
             return _context
                 .Set<T>()
-                .Count(t => t.IsDeleted == false);
+                .Count(!IsDeleted);
         }
 
         /// <summary>
@@ -439,7 +438,7 @@ namespace DataAccess.Repository
         {
             return await _context
                 .Set<T>()
-                .CountAsync(t => t.IsDeleted == false);
+                .CountAsync(!IsDeleted);
         }
 
         /// <summary>
@@ -450,7 +449,7 @@ namespace DataAccess.Repository
         public bool Exists(int id)
         {
             return _context.Set<T>()
-                .Where(t => t.IsDeleted == false)
+                .Where(!IsDeleted)
                 .Any(t => t.Id == id);
         }
 
@@ -696,6 +695,12 @@ namespace DataAccess.Repository
             GC.SuppressFinalize(this);
         }
 
+
+        #endregion
+
+        #region Func 
+
+        private readonly Func<T, bool> IsDeleted => T.IsDeleted == true;
 
         #endregion
     }
