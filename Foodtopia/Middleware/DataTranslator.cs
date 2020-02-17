@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Authentication.Service.IService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Foodtopia.Middleware
 {
@@ -13,11 +14,12 @@ namespace Foodtopia.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ISecurityService _securityService;
-
-        public DataTranslator(RequestDelegate next, ISecurityService securityService)
+        private readonly IConfiguration _configuration;
+        public DataTranslator(RequestDelegate next, ISecurityService securityService, IConfiguration configuration)
         {
             _next = next;
             _securityService = securityService;
+            _configuration = configuration;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -30,9 +32,13 @@ namespace Foodtopia.Middleware
                 context.Request.ContentType = "text/plain";
                 await _next(context);
             }
+            
+            var secureHeader = _configuration.GetValue<string>("AppSetting:SecureHeader"); // default is ft-ejson
 
-            if (context.Request.ContentType != "ft-ejson") //TODO: Read this key from app setting json
+            if (context.Request.ContentType != secureHeader)
                 await _next(context);
+
+            var encryptionKey = _configuration.GetValue<string>("AppSetting:EncryptionKey");
 
             if (context.Response.ContentLength.GetValueOrDefault(0) == 0) // Input Request
             {
@@ -40,7 +46,7 @@ namespace Foodtopia.Middleware
                 {
                     var cipherBody = reader.ReadToEnd();
 
-                    var body = _securityService.Decrypt(cipherBody, ""); //TODO: Read this key from app setting json
+                    var body = _securityService.Decrypt(cipherBody, encryptionKey);
 
                     context.Request.Body.Flush();
 
@@ -54,8 +60,7 @@ namespace Foodtopia.Middleware
                 using (var reader = new StreamReader(context.Response.Body, Encoding.UTF8))
                 {
                     var body = reader.ReadToEnd();
-
-                    var cipherBody = _securityService.Encrypt(body, ""); //TODO: Read this key from app setting json
+                    var cipherBody = _securityService.Encrypt(body, encryptionKey);
 
                     context.Response.Body.Flush();
 

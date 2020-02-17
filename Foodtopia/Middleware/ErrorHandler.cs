@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace Foodtopia.Middleware
 {
     /// <summary>
-    /// Redirect error Pages to static pages
+    /// Redirect errors to to static pages
     /// </summary>
     public class ErrorHandler
     {
