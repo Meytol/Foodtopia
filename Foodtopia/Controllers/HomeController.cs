@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Foodtopia.Common.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using Service.Repository.IRepository;
 
 namespace Foodtopia.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IApplicationActionService _applicationActionService;
 

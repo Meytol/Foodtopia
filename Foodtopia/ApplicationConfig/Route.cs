@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace Foodtopia.Middleware
+namespace Foodtopia.ApplicationConfig
 {
-    public static class RouteHandler
+    public static class Route
     {
-        public static void AreaRoute(IApplicationBuilder app)
+        public static void AreaRouteConfigure(IApplicationBuilder app)
         {
             app.UseEndpoints(endpoints =>
             {
@@ -14,7 +14,7 @@ namespace Foodtopia.Middleware
                 );
             });
         }
-        public static void DefaultRoute(IApplicationBuilder app)
+        public static void DefaultRouteConfigure(IApplicationBuilder app)
         {
             app.UseEndpoints(endpoints =>
             {

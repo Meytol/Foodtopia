@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Foodtopia.Middleware
+namespace Foodtopia.ApplicationConfig
 {
-    public static class CookieHandler
+    public static class Cookie
     {
         public static void ConfigureCookieSecurity(IServiceCollection services)
         {

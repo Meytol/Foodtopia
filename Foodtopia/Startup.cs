@@ -1,21 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Authentication.Service;
-using Authentication.Service.IService;
+using Foodtopia.ApplicationConfig;
 using Foodtopia.Middleware;
-using Foodtopia.MiniServices;
-using Foodtopia.MiniServices.IService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Service.Repository;
-using Service.Repository.IRepository;
 
 namespace Foodtopia
 {
@@ -23,23 +12,27 @@ namespace Foodtopia
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            CookieHandler.ConfigureCookieSecurity(services);
+            Cookie.ConfigureCookieSecurity(services);
 
-            IocHandler.ConfigureDependyInjection(services);
+            Ioc.ConfigureDependyInjection(services);
 
             services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<DataTranslator>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                ErrorHandler.UseExceptionHandler(app);
+                app.UseHsts();
+                app.UseMiddleware<ErrorHandler>();
             }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -48,8 +41,8 @@ namespace Foodtopia
 
             app.UseAuthorization();
 
-           //RouteHandler.DefaultRoute(app);
-           RouteHandler.AreaRoute(app);
+            //Route.DefaultRouteConfigure(app);
+            Route.AreaRouteConfigure(app);
         }
     }
 }

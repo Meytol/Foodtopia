@@ -1,5 +1,4 @@
-﻿using System;
-using Authentication.Service;
+﻿using Authentication.Service;
 using Authentication.Service.IService;
 using Foodtopia.MiniServices;
 using Foodtopia.MiniServices.IService;
@@ -7,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Service.Repository;
 using Service.Repository.IRepository;
 
-namespace Foodtopia.Middleware
+namespace Foodtopia.ApplicationConfig
 {
-    public static class IocHandler
+    public static class Ioc
     {
         public static void ConfigureDependyInjection(IServiceCollection services)
         {
@@ -41,12 +40,10 @@ namespace Foodtopia.Middleware
             services.AddTransient<IUserRoleService, UserRoleService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAuthenticationCodeService, AuthenticationCodeService>();
-
             services.AddTransient<IEmailSerivce, EmailService>();
             services.AddTransient<IEmailUserService, EmailUserService>();
             services.AddTransient<ISmsService, SmsService>();
             services.AddTransient<ISmsUserService, SmsUserService>();
-
 
             #endregion
 
@@ -60,7 +57,7 @@ namespace Foodtopia.Middleware
             #region Authentication
 
             services.AddTransient<IAuthorizeService, AuthorizeService>();
-            services.AddTransient<ISecurityService, SecurityService>();
+            services.AddSingleton<ISecurityService, SecurityService>();
 
             #endregion
         }

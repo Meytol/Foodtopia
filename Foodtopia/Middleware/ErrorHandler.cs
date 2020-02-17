@@ -1,40 +1,49 @@
-﻿using Microsoft.AspNetCore.Builder;
-using System.Net;
+﻿using System.Net;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Foodtopia.Middleware
 {
-    public static class ErrorHandler
+    /// <summary>
+    /// Redirect error Pages to static pages
+    /// </summary>
+    public class ErrorHandler
     {
-        public static void UseExceptionHandler(IApplicationBuilder app)
+        private readonly RequestDelegate _next;
+
+        public ErrorHandler(RequestDelegate next)
         {
+            _next = next;
+        }
 
-            app.UseStatusCodePages(async context =>
+        public async Task InvokeAsync(HttpContext context)
+        {
+            if (context.Response.ContentLength.GetValueOrDefault(0) == 0)
+                await _next(context);
+
+            if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest") // If it is a AJAX request
+                await _next(context);
+
+            switch (context.Response.StatusCode)
             {
-                var request = context.HttpContext.Request;
-                var response = context.HttpContext.Response;
+                case (int) HttpStatusCode.Unauthorized:
+                    context.Response.Redirect("/Error/Unauthorized", true);
+                    break;
+                case (int) HttpStatusCode.Forbidden:
+                    context.Response.Redirect("/Error/Forbidden", true);
+                    break;
+                case (int) HttpStatusCode.NotFound:
+                    context.Response.Redirect("/Error/NotFound", true);
+                    break;
+                case (int) HttpStatusCode.InternalServerError:
+                    context.Response.Redirect("/Error/InternalServerError", false);
+                    break;
+                case (int) HttpStatusCode.ServiceUnavailable:
+                    context.Response.Redirect("/Error/ServiceUnavailable", false);
+                    break;
+            }
 
-                switch (response.StatusCode)
-                {
-                    case (int)HttpStatusCode.Unauthorized:
-                        response.Redirect("/Error/Unauthorized");
-                        break;
-                    case (int)HttpStatusCode.Forbidden:
-                        response.Redirect("/Error/Forbidden");
-                        break;
-                    case (int)HttpStatusCode.NotFound:
-                        response.Redirect("/Error/NotFound");
-                        break;
-                    case (int)HttpStatusCode.InternalServerError:
-                        response.Redirect("/Error/InternalServerError");
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            //app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
+            await _next(context);
         }
     }
 }
