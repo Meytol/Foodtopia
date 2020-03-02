@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Net;
 using Authentication.Common;
-using Authentication.Service.IService;
-using DataAccess.Common.Enum;
-using Foodtopia.MiniServices.IService;
-using Microsoft.AspNetCore.Authentication;
+using Authentication.Interface;
+using Foodtopia.MiniServices.Intereface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

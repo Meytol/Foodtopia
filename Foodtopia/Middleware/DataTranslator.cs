@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Authentication.Service.IService;
+using Common.Cryptography.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
@@ -13,9 +13,9 @@ namespace Foodtopia.Middleware
     public class DataTranslator
     {
         private readonly RequestDelegate _next;
-        private readonly ISecurityService _securityService;
+        private readonly ICryptographyService _securityService;
         private readonly IConfiguration _configuration;
-        public DataTranslator(RequestDelegate next, ISecurityService securityService, IConfiguration configuration)
+        public DataTranslator(RequestDelegate next, ICryptographyService securityService, IConfiguration configuration)
         {
             _next = next;
             _securityService = securityService;

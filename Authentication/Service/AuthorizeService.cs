@@ -1,4 +1,4 @@
-﻿using Authentication.Service.IService;
+﻿using Authentication.Interface;
 using Authentication.ViewModel.Cookie;
 using Authentication.ViewModel.Session;
 using DataAccess.Model;

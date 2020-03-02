@@ -14,10 +14,10 @@ namespace DataAccess.Common.Interface
         int CreatedByUserId { get; set; }
         DateTime CreatedOn { get; set; }
 
-        int UpdatedByUserId { get; set; }
+        int? UpdatedByUserId { get; set; }
         DateTime? UpdatedOn { get; set; }
 
-        int DeletedByUserId { get; set; }
+        int? DeletedByUserId { get; set; }
         DateTime? DeletedOn { get; set; }
 
         int OwnerUserId { get; set; }

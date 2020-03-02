@@ -17,8 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authentication\Authentication.csproj" />
+    <ProjectReference Include="..\Cryptography\Cryptography.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-    <ProjectReference Include="..\Service\Service.csproj" />
+    <ProjectReference Include="..\RepositoryService\RepositoryService.csproj" />
+    <ProjectReference Include="..\ValidationService\ValidationService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

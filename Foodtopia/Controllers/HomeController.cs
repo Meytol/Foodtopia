@@ -1,20 +1,11 @@
 ﻿using Foodtopia.Common.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Service.Repository.IRepository;
+using RepositoryService.Interface;
 
 namespace Foodtopia.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly IApplicationActionService _applicationActionService;
-
-        public HomeController(IApplicationActionService applicationActionService)
-        {
-            _applicationActionService = applicationActionService;
-        }
-
-
-
         public IActionResult Index()
         {
             return View();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Authentication.Common;
+﻿using Authentication.Common;
 using Foodtopia.Common.Attribute;
 using Foodtopia.Common.Controllers;
 using Microsoft.AspNetCore.Mvc;
