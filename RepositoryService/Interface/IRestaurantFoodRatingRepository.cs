@@ -3,7 +3,7 @@ using RepositoryService.Structure;
 
 namespace RepositoryService.Interface
 {
-    public interface IRestaurantFoodRatingRepository : IGenericRepository<RestaurantFoodReating>
+    public interface IRestaurantFoodRatingRepository : IGenericRepository<RestaurantFoodRating>
     {
         
     }

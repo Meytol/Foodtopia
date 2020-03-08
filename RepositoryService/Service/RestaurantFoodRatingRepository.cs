@@ -6,7 +6,7 @@ using ValidationService.Interface;
 
 namespace RepositoryService.Service
 {
-    public class RestaurantFoodRatingRepository : GenericRepository<RestaurantFoodReating>, IRestaurantFoodRatingRepository
+    public class RestaurantFoodRatingRepository : GenericRepository<RestaurantFoodRating>, IRestaurantFoodRatingRepository
     {
         public RestaurantFoodRatingRepository(DatabaseContext context, IRestaurantFoodRatingValidation validation)
         :base(context, validation)

@@ -12,7 +12,7 @@ namespace DataAccess.Model
 
         public string Value { get; set; }
 
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public int? UpdatedByUserId { get; set; }

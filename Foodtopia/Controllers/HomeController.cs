@@ -11,23 +11,19 @@ namespace Foodtopia.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult AboutUs()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult ContactUs()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
-        public IActionResult Privacy()
+        public PartialViewResult CookiePrivacy()
         {
-            return View();
+            return PartialView();
         }
     }
 }

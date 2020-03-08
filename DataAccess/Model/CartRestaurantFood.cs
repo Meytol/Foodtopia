@@ -10,13 +10,13 @@ namespace DataAccess.Model
         #region IAuditableProperties
 
         [Key] public int Id { get; set; }
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime CreatedOn { get; set; }
         public int? UpdatedByUserId { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public int? DeletedByUserId { get; set; }
         public DateTime? DeletedOn { get; set; }
-        public int OwnerUserId { get; set; }
+        public int? OwnerUserId { get; set; }
         public bool IsDeleted { get; set; }
 
         #endregion

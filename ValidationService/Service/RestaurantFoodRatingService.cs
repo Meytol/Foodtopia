@@ -5,7 +5,7 @@ using ValidationService.Structure;
 
 namespace ValidationService.Service
 {
-    public class RestaurantFoodRatingValidation : GenericValidation<RestaurantFoodReating>, IRestaurantFoodRatingValidation
+    public class RestaurantFoodRatingValidation : GenericValidation<RestaurantFoodRating>, IRestaurantFoodRatingValidation
     {
         public RestaurantFoodRatingValidation(DatabaseContext context)
         :base(context)

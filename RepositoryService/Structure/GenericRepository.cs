@@ -2070,7 +2070,7 @@ namespace RepositoryService.Structure
             entity.IsDeleted = false;
 
             if (entity.OwnerUserId == 0)
-                entity.OwnerUserId = entity.CreatedByUserId;
+                entity.OwnerUserId = createdById;
 
             return entity;
         }

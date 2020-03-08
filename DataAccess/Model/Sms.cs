@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DataAccess.Common.Interface;
 
@@ -10,13 +11,13 @@ namespace DataAccess.Model
 
         [Key]
         public int Id { get; set; }
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime CreatedOn { get; set; }
         public int? UpdatedByUserId { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public int? DeletedByUserId { get; set; }
         public DateTime? DeletedOn { get; set; }
-        public int OwnerUserId { get; set; }
+        public int? OwnerUserId { get; set; }
         public bool IsDeleted { get; set; }
 
         #endregion
@@ -29,6 +30,7 @@ namespace DataAccess.Model
         public User UpdatedByUser { get; set; }
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
+        public ICollection<SmsUser> SmsUsers { get; set; }
 
         #endregion
     }

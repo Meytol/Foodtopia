@@ -12,13 +12,13 @@ namespace DataAccess.Model
 
         [Key]
         public int Id { get; set; }
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime CreatedOn { get; set; }
         public int? UpdatedByUserId { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public int? DeletedByUserId { get; set; }
         public DateTime? DeletedOn { get; set; }
-        public int OwnerUserId { get; set; }
+        public int? OwnerUserId { get; set; }
         public bool IsDeleted { get; set; }
 
         #endregion
@@ -54,6 +54,8 @@ namespace DataAccess.Model
         public User DeletedByUser { get; set; }
         public User OwnerUser { get; set; }
         public City City { get; set; }
+
+        public ICollection<RestaurantUser> RestaurantUsers { get; set; }
 
         #endregion
     }

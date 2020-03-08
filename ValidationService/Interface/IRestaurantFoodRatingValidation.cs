@@ -3,7 +3,7 @@ using ValidationService.Structure;
 
 namespace ValidationService.Interface
 {
-    public interface IRestaurantFoodRatingValidation : IGenericValidation<RestaurantFoodReating>
+    public interface IRestaurantFoodRatingValidation : IGenericValidation<RestaurantFoodRating>
     {
         
     }

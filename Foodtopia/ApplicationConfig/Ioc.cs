@@ -4,6 +4,7 @@ using Common.Cryptography.Interface;
 using Common.Cryptography.Service;
 using Foodtopia.MiniServices.Intereface;
 using Foodtopia.MiniServices.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using RepositoryService.Interface;
 using RepositoryService.Service;
@@ -16,6 +17,12 @@ namespace Foodtopia.ApplicationConfig
     {
         public static void ConfigureDependyInjection(IServiceCollection services)
         {
+            #region HttpContext
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            #endregion
+
             #region Repository
 
             services.AddTransient<IApplicationActionRepository, ApplicationActionRepository>();
@@ -97,6 +104,7 @@ namespace Foodtopia.ApplicationConfig
 
             services.AddTransient<IAuthorizeService, AuthorizeService>();
             services.AddSingleton<ICryptographyService, CryptographyService>();
+            services.AddSingleton<IBase32Service, Base32Service>();
 
             #endregion
         }

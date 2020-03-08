@@ -11,7 +11,7 @@ namespace DataAccess.Common.Interface
         [Key]
         int Id { get; set; }
 
-        int CreatedByUserId { get; set; }
+        int? CreatedByUserId { get; set; }
         DateTime CreatedOn { get; set; }
 
         int? UpdatedByUserId { get; set; }
@@ -20,7 +20,7 @@ namespace DataAccess.Common.Interface
         int? DeletedByUserId { get; set; }
         DateTime? DeletedOn { get; set; }
 
-        int OwnerUserId { get; set; }
+        int? OwnerUserId { get; set; }
 
         bool IsDeleted { get; set; }
 
