@@ -31,14 +31,18 @@ namespace Foodtopia.Middleware
 
                 context.Request.ContentType = "text/plain";
                 await _next(context);
+                return;
             }
             
             var secureHeader = _configuration.GetValue<string>("AppSetting:SecureHeader"); // default is ft-ejson
 
             if (context.Request.ContentType != secureHeader)
+            {
                 await _next(context);
+                return;
+            }
 
-            var encryptionKey = _configuration.GetValue<string>("AppSetting:EncryptionKey");
+            var encryptionKey = _configuration.GetValue<string>("AppSetting:ApiEncryptionKey");
 
             if (context.Response.ContentLength.GetValueOrDefault(0) == 0) // Input Request
             {
@@ -54,6 +58,7 @@ namespace Foodtopia.Middleware
                 }
 
                 await _next(context);
+                return;
             }
             else // Output Response
             {
@@ -69,6 +74,7 @@ namespace Foodtopia.Middleware
                 }
 
                 await _next(context);
+                return;
             }
         }
     }

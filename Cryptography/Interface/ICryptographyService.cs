@@ -10,6 +10,8 @@ namespace Common.Cryptography.Interface
         string GetKey(string n, string e);
         string GetKey(string n, Encoding e);
 
-        Task<T> Decrypt<T>(string cipherText, string key);
+        T Decrypt<T>(string cipherText, string key);
+        string Encrypt<T>(T data, string key);
+
     }
 }

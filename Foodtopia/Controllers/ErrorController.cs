@@ -5,25 +5,25 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Foodtopia.Controllers
 {
-    [Grant(AuthorizeLevel.AllowAnanymos)]
+    [TypeFilter(typeof(Grant), Arguments = new object[] { AuthorizeLevel.AllowAnanymos, GrantPriority.Override })]
     public class ErrorController : BaseController
     {
-        public IActionResult Unauthorized()
+        public IActionResult Unauthorized() //401
         {
             return View();
         }
 
-        public IActionResult Forbidden()
+        public IActionResult Forbidden() //403
         {
             return View();
         }
 
-        public IActionResult NotFound()
+        public IActionResult NotFound() //404
         {
             return View();
         }
 
-        public IActionResult InternalServerError()
+        public IActionResult InternalServerError() //500
         {
             return View();
         }

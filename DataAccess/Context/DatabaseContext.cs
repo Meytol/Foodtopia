@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DataAccess.Model;
+// ReSharper disable UnusedMember.Global
 
 namespace DataAccess.Context
 {
@@ -889,8 +890,6 @@ namespace DataAccess.Context
                 .HasForeignKey(e => e.UserId);
 
             #endregion
-
-
         }
 
     }

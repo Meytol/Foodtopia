@@ -38,6 +38,7 @@ namespace DataAccess.Model
         public bool IsLockout { get; set; }
         public DateTime? LockoutEnd { get; set; }
         public short AccessFailedCount { get; set; }
+        public string Password { get; set; }
 
         [NotMapped]
         public string Fullname => $"{Firstname} {Lastname}";

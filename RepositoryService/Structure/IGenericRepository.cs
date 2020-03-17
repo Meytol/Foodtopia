@@ -20,7 +20,7 @@ namespace RepositoryService.Structure
         /// <returns>
         /// return inserted object with id
         /// </returns>
-        DbResult<T> Add(T entity, int createdById);
+        DbResult<T> Add(T entity, int? createdById);
 
         /// <summary>
         /// Insert object to database async
@@ -30,7 +30,7 @@ namespace RepositoryService.Structure
         /// <returns>
         /// return inserted object with id
         /// </returns>
-        Task<DbResult<T>> AddAsync(T entity, int createdById);
+        Task<DbResult<T>> AddAsync(T entity, int? createdById);
 
         #endregion
 

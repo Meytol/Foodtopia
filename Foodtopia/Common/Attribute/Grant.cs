@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using Authentication.Common;
 using Authentication.Interface;
+using Authentication.ViewModel.Session;
 using Foodtopia.MiniServices.Intereface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,58 +15,83 @@ namespace Foodtopia.Common.Attribute
     public class Grant : ActionFilterAttribute
     {
         private readonly AuthorizeLevel _grantType;
-        private HttpContext _httpContext;
+        private readonly HttpContext _httpContext;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserCookieService _userCookieService;
-        private readonly IUserSessionService _userSessionService;
+        private readonly IAuthenticationCookieService _authCookieService;
+        private readonly IAuthenticationSessionService _authSessionService;
         private readonly IAuthorizeService _authorizeService;
+        private readonly GrantPriority _grantPriority;
 
-        public Grant()
-        {
-            _grantType = AuthorizeLevel.NeedAuthorize;
-        }
+        private readonly string _isAuthenticationChecked;
 
-        public Grant(AuthorizeLevel grantType)
-        {
-            _grantType = grantType;
-        }
-
-        public Grant(IHttpContextAccessor httpContextAccessor, IUserCookieService userCookieService, IUserSessionService userSessionService, IAuthorizeService authorizeService)
+        public Grant(IHttpContextAccessor httpContextAccessor, IAuthenticationCookieService authCookieService, IAuthenticationSessionService authSessionService, IAuthorizeService authorizeService,
+            AuthorizeLevel grantType,
+            GrantPriority grantPriority)
         {
             _httpContextAccessor = httpContextAccessor;
-            _userCookieService = userCookieService;
-            _userSessionService= userSessionService;
+            _authCookieService = authCookieService;
+            _authSessionService= authSessionService;
             _authorizeService = authorizeService;
+
+            _grantType = grantType;
+            _httpContext = _httpContextAccessor.HttpContext;
+            _isAuthenticationChecked = "IsAuthenticationChecked";
+
+            _grantPriority = grantPriority;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (_grantType == AuthorizeLevel.AllowAnanymos)
-                return;
+            if (filterContext.HttpContext.Session.TryGetValue(_isAuthenticationChecked, out var boolBytes))
+            {
+                var boolString = Encoding.UTF8.GetString(boolBytes);
 
-            _httpContext = _httpContextAccessor.HttpContext;
+                if (bool.Parse(boolString))
+                {
+                    return;
+                }
+            }
+
             var userId = 0;
 
             try
             {
+
+                if (_grantType == AuthorizeLevel.AllowAnanymos)
+                    return;
+
+
+
                 var path = _httpContextAccessor.HttpContext.Request.Path.Value;
 
-                var userSession = _userCookieService.Get(_httpContext);
-                var userCookie = _userCookieService.Get(_httpContext);
+                var authSession = _authSessionService.Get(_httpContext);
+                var authCookie = _authCookieService.Get(_httpContext);
 
-                if (userSession == null)
+                if (authSession == null || !_authorizeService.CheckUserSession(authSession))
                 {
-                    if (userCookie != null && _authorizeService.CheckUserCookie(userCookie))
+                    if (authCookie == null || !_authorizeService.CheckUserCookie(authCookie))
                     {
-                        var userName = userCookie.UserName;
-                        var password = userCookie.UserPassword;
+                        filterContext.Result = new RedirectResult("/Account/LogIn?returnUrl=" + path);
+                        return;
+                    }
+                    else
+                    {
+                        var phoneNumber = authCookie.PhoneNumber;
+                        var password = authCookie.Password;
 
-                        var user = _authorizeService.GetUser(userName: userName, password: password);
+                        var user = _authorizeService.GetUser(phoneNumber: phoneNumber, password);
 
                         if (user != null)
                         {
-                            _userSessionService.Update(_httpContext);
+                            var session = new AuthenticationSessionViewModel()
+                            {
+                                UserId = user.Id,
+                                UserFullName = user.Fullname
+                            };
+
+                            _authSessionService.Update(_httpContext, session);
+                            authSession = _authSessionService.Get(_httpContext);
                             userId = user.Id;
                         }
                         else
@@ -74,45 +101,54 @@ namespace Foodtopia.Common.Attribute
                             //return;
                         }
                     }
-                    else // User Cookie is null or it isn't valid
-                    {
-                        filterContext.Result = new RedirectResult("/Account/LogIn?returnUrl=" + path);
-                        return;
-                    }
                 }
-                else if (userCookie == null) // both of User Session is not null but User Cookie is null 
+                else if (authCookie == null) // both of User Session is NOT null but User Cookie is null 
                 {
-                    filterContext.Result = new RedirectResult("/Account/Login?returnUrl=" + path);
+                    _authSessionService.Remove(_httpContext);
+
+                    filterContext.Result = new RedirectToActionResult("SignIn", "User", new {area = "Account"});
                     return;
                 }
                 else // User Session and User Cookie isn't null
                 {
-                    userId = userCookie.UserId;
+                    userId = authCookie.UserId;
                 }
 
                 if (_grantType == AuthorizeLevel.LogedIn)
                     return;
 
-                var areaTitle = filterContext.RouteData.DataTokens["Area"].ToString();
+                var areaTitle = string.Empty;
+
+                try
+                {
+                    areaTitle = filterContext.RouteData.DataTokens["Full"].ToString();
+                }
+                catch (Exception e)
+                {
+                    // Do nothing
+                }
+
                 var controllerTitle = filterContext.RouteData.Values["Controller"].ToString();
                 var actionTitle = filterContext.RouteData.Values["Action"].ToString();
+
+
 
                 var hasAccess = _authorizeService.CheckUserPermision(areaTitle: areaTitle,
                     controllerTitle: controllerTitle, actionTitle: actionTitle, userId: userId);
 
                 if (!hasAccess)
                     throw new UnauthorizedAccessException();
-                
-                _userCookieService.AddExpireTime(_httpContext);
+
+                _authCookieService.AddExpireTime(_httpContext);
 
             }
             catch (UnauthorizedAccessException)
             {
                 if (IsAjaxRequest())
                 {
-                    filterContext.Result = userId == 0 
-                        ? new JsonResult(new { HttpStatusCode.Unauthorized }) 
-                        : new JsonResult(new { HttpStatusCode.Forbidden });
+                    filterContext.Result = userId == 0
+                        ? new JsonResult(new {HttpStatusCode.Unauthorized})
+                        : new JsonResult(new {HttpStatusCode.Forbidden});
                 }
                 else
                 {
@@ -123,7 +159,44 @@ namespace Foodtopia.Common.Attribute
             }
             catch (Exception)
             {
-                filterContext.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                if (IsAjaxRequest())
+                {
+                    filterContext.Result = new JsonResult(new {HttpStatusCode.InternalServerError});
+                }
+                else
+                {
+                    filterContext.HttpContext.Response.StatusCode = (int) System.Net.HttpStatusCode.InternalServerError;
+                }
+            }
+            finally
+            {
+                if (_grantPriority == GrantPriority.Override)
+                {
+                    if (filterContext.HttpContext.Session.TryGetValue(_isAuthenticationChecked, out var buffer))
+                    {
+
+                        var converted = bool.Parse(Encoding.UTF8.GetString(buffer));
+
+                        if (converted)
+                        {
+
+                        }
+                        else
+                        {
+                            var trueString = bool.TrueString;
+                            var bytes = Encoding.UTF8.GetBytes(trueString);
+
+                            filterContext.HttpContext.Session.Set(_isAuthenticationChecked, bytes);
+                        }
+                    }
+                    else
+                    {
+                        var trueString = bool.TrueString;
+                        var bytes = Encoding.UTF8.GetBytes(trueString);
+
+                        filterContext.HttpContext.Session.Set(_isAuthenticationChecked, bytes);
+                    }
+                }
             }
         }
 

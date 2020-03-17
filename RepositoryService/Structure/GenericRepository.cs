@@ -19,7 +19,6 @@ namespace RepositoryService.Structure
         protected DatabaseContext Context;
         protected IGenericValidation<T> Validation;
         private bool _disposed = true;
-        private ISettingValidation _validation;
 
         protected GenericRepository(DatabaseContext context, IGenericValidation<T> validation)
         {
@@ -27,12 +26,7 @@ namespace RepositoryService.Structure
             Validation = validation;
         }
 
-        protected GenericRepository(DatabaseContext context, ISettingValidation validation)
-        {
-            Context = context;
-            this._validation = validation;
-        }
-
+       
         #region Create
 
         /// <summary>
@@ -44,7 +38,7 @@ namespace RepositoryService.Structure
         /// <returns>
         /// return inserted object with id
         /// </returns>
-        public virtual DbResult<T> Add(T entity, int createdById)
+        public virtual DbResult<T> Add(T entity, int? createdById)
         {
             var result = new DbResult<T>();
 
@@ -96,7 +90,7 @@ namespace RepositoryService.Structure
         /// <returns>
         /// return inserted object with id
         /// </returns>
-        public virtual async Task<DbResult<T>> AddAsync(T entity, int createdById)
+        public virtual async Task<DbResult<T>> AddAsync(T entity, int? createdById)
         {
             var result = new DbResult<T>();
 
@@ -2062,14 +2056,14 @@ namespace RepositoryService.Structure
 
         #region Func
 
-        private T FillInsertDefaultProperties(T entity, int createdById)
+        private T FillInsertDefaultProperties(T entity, int? createdById)
         {
             entity.CreatedByUserId = createdById;
             entity.CreatedOn = DateTime.Now;
 
             entity.IsDeleted = false;
 
-            if (entity.OwnerUserId == 0)
+            if (entity.OwnerUserId == 0 && createdById.HasValue)
                 entity.OwnerUserId = createdById;
 
             return entity;

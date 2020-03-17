@@ -1,11 +1,15 @@
-﻿using Foodtopia.Common.Controllers;
+﻿using Authentication.Common;
+using Foodtopia.Common.Attribute;
+using Foodtopia.Common.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using RepositoryService.Interface;
 
 namespace Foodtopia.Controllers
 {
+    
+    [TypeFilter(typeof(Grant), Arguments = new object[] {AuthorizeLevel.AllowAnanymos})]
     public class HomeController : BaseController
     {
+
         public IActionResult Index()
         {
             return View();

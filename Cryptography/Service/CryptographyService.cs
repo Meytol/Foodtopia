@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Cryptography.Interface;
+using Newtonsoft.Json;
 
 namespace Common.Cryptography.Service
 {
@@ -27,10 +28,10 @@ namespace Common.Cryptography.Service
         }
         public String GetKey(string n, Encoding e)
         {
-            char[] x = new char[36];
+            var x = new char[36];
             var bytes = ToByteArray(n, e);
-            String y = ToBinary(bytes);
-            for (int i = 0; i < x.Length; i++)
+            var y = ToBinary(bytes);
+            for (var i = 0; i < x.Length; i++)
             {
                 x[i] = (char)(((i < 10) ? 48 : 87) + i);
             }
@@ -42,12 +43,12 @@ namespace Common.Cryptography.Service
                     byte i = 0;
                     while (i < x.Length)
                     {
-                        byte m = (byte)(i + z + 1);
+                        var m = (byte)(i + z + 1);
 
                         if (m > (x.Length - 1))
                             m = (byte)(m - x.Length);
 
-                        char t = x[i];
+                        var t = x[i];
                         if (m % 3 == 0)
                         {
                             x[i] = x[m];
@@ -74,9 +75,9 @@ namespace Common.Cryptography.Service
         }
         private RijndaelManaged GetCryptoTransform(string key)
         {
-            string key_string64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
+            var keyString64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
 
-            RijndaelManaged aes = new RijndaelManaged();
+            var aes = new RijndaelManaged();
             aes.BlockSize = 128;
             aes.KeySize = 256;
 
@@ -84,42 +85,41 @@ namespace Common.Cryptography.Service
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
 
-            byte[] keyArr = Convert.FromBase64String(key_string64);
-            byte[] KeyArrBytes32Value = new byte[keyArr.Length];
+            var keyArr = Convert.FromBase64String(keyString64);
+            var keyArrBytes32Value = new byte[keyArr.Length];
 
-            Array.Copy(keyArr, KeyArrBytes32Value, keyArr.Length);
+            Array.Copy(keyArr, keyArrBytes32Value, keyArr.Length);
 
             // Initialization vector.   
             // It could be any value or generated using a random number generator.
             byte[] ivArr = { 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 7, 7, 7, 7 };
-            byte[] IVBytes16Value = new byte[16];
+            var ivBytes16Value = new byte[16];
 
-            Array.Copy(ivArr, IVBytes16Value, 16);
+            Array.Copy(ivArr, ivBytes16Value, 16);
 
-            aes.Key = KeyArrBytes32Value;
-            aes.IV = IVBytes16Value;
+            aes.Key = keyArrBytes32Value;
+            aes.IV = ivBytes16Value;
 
             return aes;
         }
-        public string Encrypt(string PlainText, string key)
+        public string Encrypt(string plainText, string key)
         {
             var aes = GetCryptoTransform(key);
             var encrypto = aes.CreateEncryptor();
 
-            byte[] plainTextByte = Encoding.UTF8.GetBytes(PlainText);
-            byte[] CipherText = encrypto.TransformFinalBlock(plainTextByte, 0, plainTextByte.Length);
+            var plainTextByte = Encoding.UTF8.GetBytes(plainText);
+            var cipherText = encrypto.TransformFinalBlock(plainTextByte, 0, plainTextByte.Length);
 
-            return Convert.ToBase64String(CipherText);
-
+            return Convert.ToBase64String(cipherText);
         }
 
-        public string Decrypt(string CipherText, string key)
+        public string Decrypt(string cipherText, string key)
         {
             var aes = GetCryptoTransform(key);
             var decrypto = aes.CreateDecryptor();
 
-            byte[] encryptedBytes = Convert.FromBase64CharArray(CipherText.ToCharArray(), 0, CipherText.Length);
-            byte[] decryptedData = decrypto.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
+            var encryptedBytes = Convert.FromBase64CharArray(cipherText.ToCharArray(), 0, cipherText.Length);
+            var decryptedData = decrypto.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
 
             return Encoding.UTF8.GetString(decryptedData);
         }
@@ -145,9 +145,18 @@ namespace Common.Cryptography.Service
             throw new Exception("Unsupported encoding");
         }
 
-        public async Task<T> Decrypt<T>(string cipherText, string key)
+        public T Decrypt<T>(string cipherText, string key)
         {
-            throw new System.NotImplementedException();
+            var cypherText = Decrypt(cipherText, key);
+
+            return JsonConvert.DeserializeObject<T>(cypherText);
+        }
+
+        public string Encrypt<T>(T data, string key)
+        {
+            var plainText = JsonConvert.SerializeObject(data);
+
+            return Decrypt(plainText, key);
         }
     }
 }

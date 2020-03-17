@@ -1,3 +1,4 @@
+using Common.Model.Enum;
 using DataAccess.Context;
 using Foodtopia.ApplicationConfig;
 using Foodtopia.Middleware;
@@ -31,11 +32,18 @@ namespace Foodtopia
             services.AddDbContext<DatabaseContext>(options =>
                 //options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
                 options.UseSqlServer(_configuration.GetValue<string>("ConnectionStrings:DefaultConnection")));
+
+            services.AddSession();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<DataTranslator>();
+
+            app.UseSession();
+
+            app.UseMiddleware<CheckAuthenticationSession>();
 
             if (env.IsDevelopment())
             {
@@ -47,16 +55,16 @@ namespace Foodtopia
                 app.UseMiddleware<ErrorHandler>();
             }
 
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+
             app.UseRouting();
 
             app.UseAuthorization();
 
-            //Route.DefaultRouteConfigure(app);
-            Route.AreaRouteConfigure(app);
+            RouteConfig.ConfigRoute(app, RouteConfigOption.Full);
+
+            app.UseCookiePolicy();
         }
     }
 }

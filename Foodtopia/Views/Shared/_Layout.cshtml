@@ -1,11 +1,42 @@
 ﻿<!DOCTYPE html>
 
 <html>
+@* ReSharper disable once MissingTitleTag *@
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>_Layout</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="سفارش اینترنتی غذا">
+    <meta name="keywords" content="غذا,نهار,وعده غذایی,شیرینی,نهار,قهوه,شام,صبحانه,رستوران,کافه">
+    <meta name="author" content="MohammadMahdi Hamzeh">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @if (string.IsNullOrWhiteSpace(ViewData["Title"].ToString()))
+    {
+        <title>
+            فودتوپیا یه سرزمین پر از غذا
+        </title>
+    }
+    else
+    {
+        <title>
+            فودتوپیا -
+            @ViewData["Title"]
+        </title>
+    }
+
+
+
+
 </head>
 <body>
-@RenderBody()
+    <div class="row">
+        <div class="col col-md-4">1</div>
+    </div>
+    <div class="row">
+        <div class="col col-md-4">2</div>
+</div>
+<div class="row">
+    <div class="col col-md-4">3</div>
+</div>
+    @RenderBody()
 </body>
 </html>

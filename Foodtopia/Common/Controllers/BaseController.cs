@@ -1,10 +1,11 @@
-﻿using Foodtopia.Common.Attribute;
+﻿using Authentication.Common;
+using Foodtopia.Common.Attribute;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Foodtopia.Common.Controllers
 {
     [Logger]
-    [Grant]
+    [TypeFilter(typeof(Grant), Arguments = new object[] { AuthorizeLevel.NeedAuthorize, GrantPriority.Default })]
     public class BaseController : Controller
     {
 

@@ -95,8 +95,8 @@ namespace Foodtopia.ApplicationConfig
 
             #region Mini Services
 
-            services.AddTransient<IUserCookieService, UserCookieService>();
-            services.AddTransient<IUserSessionService, UserSessionService>();
+            services.AddTransient<IAuthenticationCookieService, AuthenticationCookieService>();
+            services.AddTransient<IAuthenticationSessionService, AuthenticationSessionService>();
 
             #endregion
 

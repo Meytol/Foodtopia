@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Foodtopia.Controllers
 {
-    [Grant(AuthorizeLevel.AllowAnanymos)]
+    [TypeFilter(typeof(Grant), Arguments = new object[] { AuthorizeLevel.AllowAnanymos, GrantPriority.Override })]
     public class SearchController : BaseController
     {
         [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Any, VaryByHeader = "*")]
