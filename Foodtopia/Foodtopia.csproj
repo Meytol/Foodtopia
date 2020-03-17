@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Foodtopia</AssemblyName>
+    <UserSecretsId>780fadab-2c88-4166-8085-1a57206c38dc</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

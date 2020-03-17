@@ -3,6 +3,7 @@
 <html>
 @* ReSharper disable once MissingTitleTag *@
 <head>
+
     <meta charset="UTF-8">
     <meta name="description" content="سفارش اینترنتی غذا">
     <meta name="keywords" content="غذا,نهار,وعده غذایی,شیرینی,نهار,قهوه,شام,صبحانه,رستوران,کافه">
@@ -24,7 +25,12 @@
     }
 
 
-
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    </environment>
 
 </head>
 <body>
@@ -33,10 +39,22 @@
     </div>
     <div class="row">
         <div class="col col-md-4">2</div>
-</div>
+    </div>
 <div class="row">
     <div class="col col-md-4">3</div>
 </div>
+
     @RenderBody()
+
+
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</environment>
+
 </body>
 </html>

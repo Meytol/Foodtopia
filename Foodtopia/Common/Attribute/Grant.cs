@@ -15,19 +15,19 @@ namespace Foodtopia.Common.Attribute
     public class Grant : ActionFilterAttribute
     {
         private readonly AuthorizeLevel _grantType;
+        private readonly GrantPriority _grantPriority;
+
         private readonly HttpContext _httpContext;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuthenticationCookieService _authCookieService;
         private readonly IAuthenticationSessionService _authSessionService;
         private readonly IAuthorizeService _authorizeService;
-        private readonly GrantPriority _grantPriority;
 
         private readonly string _isAuthenticationChecked;
 
         public Grant(IHttpContextAccessor httpContextAccessor, IAuthenticationCookieService authCookieService, IAuthenticationSessionService authSessionService, IAuthorizeService authorizeService,
-            AuthorizeLevel grantType,
-            GrantPriority grantPriority)
+            AuthorizeLevel grantType = AuthorizeLevel.NeedAuthorize, GrantPriority grantPriority = GrantPriority.Default)
         {
             _httpContextAccessor = httpContextAccessor;
             _authCookieService = authCookieService;
