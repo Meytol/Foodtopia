@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Foodtopia.Controllers
 {
     
-    [TypeFilter(typeof(Grant), Arguments = new object[] {AuthorizeLevel.AllowAnanymos})]
+    [TypeFilter(typeof(Grant), Arguments = new object[] {AuthorizeLevel.AllowAnanymos, GrantPriority.Override})]
     public class HomeController : BaseController
     {
 

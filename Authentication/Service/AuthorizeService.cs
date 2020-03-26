@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using Authentication.Interface;
 using Authentication.ViewModel.Cookie;
 using Authentication.ViewModel.Session;
@@ -90,6 +91,7 @@ namespace Authentication.Service
 
         public SignInViewModel GetUser(string phoneNumber, string password)
         {
+
             var userVm = new SignInViewModel()
             {
                 PhoneNumber = phoneNumber,
@@ -99,12 +101,28 @@ namespace Authentication.Service
 
             var dbResult = _userRepository.SignIn(userVm).Result;
 
-            if (dbResult.Success && dbResult.Data != null)
+            if (!dbResult.Success || dbResult.Data == null)
+                return null;
+
+            var user = dbResult.Data;
+
+            if (user.IsLockout && user.LockoutEnd.HasValue)
             {
-                return dbResult.Data;
+                if (user.LockoutEnd.Value > DateTime.Now)
+                {
+                    return null;
+                }
+                else
+                {
+                    _userRepository.DisableLckout(user.Id).RunSynchronously();
+                }
+            }
+            else if (user.IsLockout && !user.LockoutEnd.HasValue)
+            {
+                return null;
             }
 
-            return null;
+            return dbResult.Data;
         }
     }
 }

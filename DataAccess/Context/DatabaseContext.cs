@@ -775,6 +775,13 @@ namespace DataAccess.Context
                 .HasForeignKey(e => e.FoodId);
 
 
+            modelBuilder.Entity<RestaurantFood>()
+                .HasOne(e => e.Restaurant)
+                .WithMany(ee => ee.RestaurantFoods)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(e => e.RestaurantId);
+
+
             modelBuilder.Entity<FoodType>()
                 .HasOne(e => e.Food)
                 .WithMany(ee => ee.FoodTypes)

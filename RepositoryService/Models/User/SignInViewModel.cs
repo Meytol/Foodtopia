@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace RepositoryService.Models.User
 {
@@ -12,5 +13,7 @@ namespace RepositoryService.Models.User
         public bool RememberMe { get; set; }
         public int Id { get; set; }
         public string Fullname { get; set; }
+        public bool IsLockout { get; set; }
+        public DateTime? LockoutEnd  { get; set; }
     }
 }

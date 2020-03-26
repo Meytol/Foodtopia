@@ -30,7 +30,7 @@ namespace RepositoryService.Service
             User user;
             var result = new ApiResult<SignInViewModel>();
 
-            if (!string.IsNullOrWhiteSpace(model.PhoneNumber.Trim()))
+            if (!string.IsNullOrWhiteSpace(model.PhoneNumber))
             {
                 var findResult = await FindAsync(u => u.PhoneNumber == model.PhoneNumber.Trim());
 
@@ -92,6 +92,12 @@ namespace RepositoryService.Service
 
             model.Fullname = user.Fullname;
             model.Id = user.Id;
+            model.IsLockout = user.IsLockout;
+
+            if (user.IsLockout)
+            {
+                model.LockoutEnd = user.LockoutEnd;
+            }
 
             result.Success = true;
             result.Data = model;
@@ -99,6 +105,18 @@ namespace RepositoryService.Service
             result.MessageType = MessageType.Success;
 
             return result;
+        }
+
+        public async Task DisableLckout(int userId)
+        {
+            var dbResult = await GetAsync(userId);
+
+            var user = dbResult.Data;
+
+            user.LockoutEnd = null;
+            user.IsLockout = false;
+
+            await UpdateAsync(user, userId);
         }
 
         public async Task<ApiResult<SignUpViewModel>> SignUp(SignUpViewModel model)

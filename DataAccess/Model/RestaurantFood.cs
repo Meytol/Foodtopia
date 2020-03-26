@@ -24,6 +24,7 @@ namespace DataAccess.Model
         #endregion
 
         public int FoodId { get; set; }
+        public int RestaurantId { get; set; }
         public TimeSpan MakingTime { get; set; }
         [DataType("decimal(12,3)")]
         public decimal Price { get; set; }
@@ -46,6 +47,7 @@ namespace DataAccess.Model
 
         public ICollection<RestaurantFoodImage> RestaurantFoodImages { get; set; }
         public Food Food { get; set; }
+        public Restaurant Restaurant { get; set; }
         public ICollection<RestaurantFoodRating> RestaurantFoodRatings { get; set; }
 
         #endregion

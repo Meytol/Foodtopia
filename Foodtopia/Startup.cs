@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 
 namespace Foodtopia
 {
@@ -27,7 +28,9 @@ namespace Foodtopia
 
             Ioc.ConfigureDependyInjection(services);
 
-            services.AddControllersWithViews();//.SetCompatibilityVersion(CompatibilityVersion.);
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+                //.SetCompatibilityVersion(CompatibilityVersion.Latest);NA
 
             services.AddDbContext<DatabaseContext>(options =>
                 //options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));

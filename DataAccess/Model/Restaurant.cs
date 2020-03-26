@@ -56,6 +56,7 @@ namespace DataAccess.Model
         public City City { get; set; }
 
         public ICollection<RestaurantUser> RestaurantUsers { get; set; }
+        public ICollection<RestaurantFood> RestaurantFoods { get; set; }
 
         #endregion
     }

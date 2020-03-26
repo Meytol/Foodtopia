@@ -10,5 +10,6 @@ namespace RepositoryService.Interface
     {
         Task<ApiResult<SignUpViewModel>> SignUp(SignUpViewModel model);
         Task<ApiResult<SignInViewModel>> SignIn(SignInViewModel model);
+        Task DisableLckout(int userId);
     }
 }
