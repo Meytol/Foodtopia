@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Common.Model;
+﻿using Authentication.Common;
+using Foodtopia.Common.Attribute;
 using Foodtopia.Common.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RepositoryService.Interface;
 
 namespace Foodtopia.Controllers
 {
-    public class RestaurantController : BaseController
+    [TypeFilter(typeof(Grant), Arguments = new object[] { AuthorizeLevel.AllowAnanymos, GrantPriority.Override })]
+    public class RestaurantsController : BaseController
     {
         private readonly IFoodRepository _food;
         private readonly IRestaurantFoodRepository _restaurantFood;
@@ -18,7 +15,7 @@ namespace Foodtopia.Controllers
         private readonly IFoodCategoryRepository _foodCategory;
         private readonly IFoodTypeRepository _foodType;
 
-        public RestaurantController(IFoodTypeRepository foodType, IFoodCategoryRepository foodCategory, IRestaurantRepository restaurant, IRestaurantFoodRepository restaurantFood, IFoodRepository food)
+        public RestaurantsController(IFoodTypeRepository foodType, IFoodCategoryRepository foodCategory, IRestaurantRepository restaurant, IRestaurantFoodRepository restaurantFood, IFoodRepository food)
         {
             _foodType = foodType;
             _foodCategory = foodCategory;

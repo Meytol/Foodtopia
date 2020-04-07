@@ -40,6 +40,7 @@
     <Folder Include="Areas\Restaurant\Views\" />
     <Folder Include="ViewComponents\Authorize\" />
     <Folder Include="Views\Foods\" />
+    <Folder Include="wwwroot\images\restaurantType\" />
     <Folder Include="wwwroot\lib\iconic\" />
   </ItemGroup>
 

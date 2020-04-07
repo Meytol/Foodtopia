@@ -1,4 +1,4 @@
-﻿
+﻿<!-- slider section -->
 <section class="home-slider owl-carousel js-fullheight">
     <div class="slider-item js-fullheight" style="background-image: url(images/bg_1.jpg);">
         <div class="overlay"></div>
@@ -43,7 +43,7 @@
     </div>
 </section>
 
-
+<!-- about section -->
 <section class="ftco-section ftco-wrap-about ftco-no-pb">
     <div class="container">
         <div class="row justify-content-center">
@@ -64,51 +64,17 @@
     </div>
 </section>
 
+<!-- counter section -->
 
-<section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(images/bg_4.jpg);" data-stellar-background-ratio="0.5">
-    <!-- <section class="ftco-section ftco-counter img ftco-no-pt" id="section-counter"> -->
-    <div class="container">
-        <div class="row d-md-flex align-items-center justify-content-center">
-            <div class="col-lg-10">
-                <div class="row d-md-flex align-items-center">
-                    <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18">
-                            <div class="text">
-                                <strong class="number" data-number="18">0</strong>
-                                <span>Years of Experienced</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18">
-                            <div class="text">
-                                <strong class="number" data-number="15000">0</strong>
-                                <span>Happy Customers</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18">
-                            <div class="text">
-                                <strong class="number" data-number="100">0</strong>
-                                <span>Menus</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18">
-                            <div class="text">
-                                <strong class="number" data-number="20">0</strong>
-                                <span>Staffs</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@*@await Component.InvokeAsync("Counter")*@
 
+<div id="counter">
+  
+
+</div>
+
+
+<!-- services section -->
 <section class="ftco-section bg-light">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-2">
@@ -155,6 +121,7 @@
     </div>
 </section>
 
+<!-- menu section -->
 <section class="ftco-section">
     <div class="container-fluid px-4">
         <div class="row justify-content-center mb-5 pb-2">
@@ -456,76 +423,7 @@
     </div>
 </section>
 
-<section class="ftco-section ftco-no-pt ftco-no-pb">
-    <div class="container-fluid px-0">
-        <div class="row d-flex no-gutters">
-            <div class="col-md-6 ftco-animate makereservation p-4 p-md-5 pt-5 pt-md-0">
-                <div class="heading-section ftco-animate mb-5">
-                    <span class="subheading">Book a table</span>
-                    <h2 class="mb-4">Make Reservation</h2>
-                </div>
-                <form action="#">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Name</label>
-                                <input type="text" class="form-control" placeholder="Your Name">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="text" class="form-control" placeholder="Your Email">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Phone</label>
-                                <input type="text" class="form-control" placeholder="Phone">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Phone</label>
-                                <input type="text" class="form-control" id="book_date" placeholder="Date">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Time</label>
-                                <input type="text" class="form-control" id="book_time" placeholder="Time">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Person</label>
-                                <div class="select-wrap one-third">
-                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                    <select name="" id="" class="form-control">
-                                        <option value="">Person</option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                        <option value="">3</option>
-                                        <option value="">4+</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-3">
-                            <div class="form-group">
-                                <input type="submit" value="Make a Reservation" class="btn btn-primary py-3 px-5">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6 d-flex align-items-stretch pb-5 pb-md-0">
-                <div id="map"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
+<!-- master chef section -->
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-2">
@@ -615,123 +513,11 @@
     </div>
 </section>
 
-<!-- <section class="ftco-section testimony-section" style="background-image: url(images/bg_5.jpg);" data-stellar-background-ratio="0.5"> -->
-<section class="ftco-section testimony-section img" style="background-image: url(images/bg_5.jpg);">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
-                <span class="subheading">Testimony</span>
-                <h2 class="mb-4">Happy Customer</h2>
-            </div>
-        </div>
-        <div class="row ftco-animate justify-content-center">
-            <div class="col-md-12">
-                <div class="carousel-testimony owl-carousel ftco-owl">
-                    <div class="item">
-                        <div class="testimony-wrap text-center pb-5">
-                            <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text p-3">
-                                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Jason McClean</p>
-                                <span class="position">Customer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap text-center pb-5">
-                            <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text p-3">
-                                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Mark Stevenson</p>
-                                <span class="position">Customer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap text-center pb-5">
-                            <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text p-3">
-                                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Art Leonard</p>
-                                <span class="position">Customer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap text-center pb-5">
-                            <div class="user-img mb-4" style="background-image: url(images/person_4.jpg)">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text p-3">
-                                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Rose Henderson</p>
-                                <span class="position">Customer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap text-center pb-5">
-                            <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text p-3">
-                                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Ian Boner</p>
-                                <span class="position">Customer</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="ftco-section ftco-no-pt ftco-no-pb">
-    <div class="container-fluid px-0">
-        <div class="row no-gutters">
-            <div class="col-md">
-                <a href="#" class="instagram img d-flex align-items-center justify-content-center" style="background-image: url(images/insta-1.jpg);">
-                    <span class="ion-logo-instagram"></span>
-                </a>
-            </div>
-            <div class="col-md">
-                <a href="#" class="instagram img d-flex align-items-center justify-content-center" style="background-image: url(images/insta-2.jpg);">
-                    <span class="ion-logo-instagram"></span>
-                </a>
-            </div>
-            <div class="col-md">
-                <a href="#" class="instagram img d-flex align-items-center justify-content-center" style="background-image: url(images/insta-3.jpg);">
-                    <span class="ion-logo-instagram"></span>
-                </a>
-            </div>
-            <div class="col-md">
-                <a href="#" class="instagram img d-flex align-items-center justify-content-center" style="background-image: url(images/insta-4.jpg);">
-                    <span class="ion-logo-instagram"></span>
-                </a>
-            </div>
-            <div class="col-md">
-                <a href="#" class="instagram img d-flex align-items-center justify-content-center" style="background-image: url(images/insta-5.jpg);">
-                    <span class="ion-logo-instagram"></span>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+@section Script
+{
+    <script>
+        $(document).ready(function () {
+            InvokeViewComponent("Counter", null, "counter");
+        });
+    </script>
+}

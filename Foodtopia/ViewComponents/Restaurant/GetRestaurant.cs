@@ -57,41 +57,6 @@ namespace Foodtopia.ViewComponents.Restaurant
 
         }
 
-        public IViewComponentResult Invoke(int restaurantId)
-        {
-            var result = new ApiResult<JsonResult>();
-
-            if (restaurantId == 0)
-            {
-                throw new Exception();
-            }
-
-            try
-            {
-                var restaurant = 
-                    _restaurant.GetAllIncluding(r => r.Id == restaurantId).Data
-                        .Include(r => r.City)
-                        .ThenInclude(c => c.Province)
-                        .FirstOrDefault();
-
-                if (restaurant == null)
-                {
-                    return null;
-                }
-
-                return View(_viewName, restaurant);
-            }
-            catch (Exception e)
-            {
-                result.Success = false;
-                result.Data = null;
-                result.Info = "";
-                result.Exception = e;
-                result.Message = "رکوردی پیدا نشد";
-
-                return View(_viewName, result);
-            }
-
-        }
+       
     }
 }

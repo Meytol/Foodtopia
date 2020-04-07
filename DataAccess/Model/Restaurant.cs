@@ -46,6 +46,9 @@ namespace DataAccess.Model
         
         public int RestaurantTypeId { get; set; }
 
+        public bool ShowRate { get; set; }
+        public float RateScore { get; set; }
+
         #region Relations
 
         public RestaurantType RestaurantType { get; set; }

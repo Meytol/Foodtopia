@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DataAccess.Model.Restaurant>
+
+<div class="row">
+    @{
+        foreach (var restaurant in Model)
+        {
+            <div class="col-md-6 col-lg-3 ftco-animate">
+                <div class="staff">
+                    <a href="@Url.Action("Menu", "Restaurants", new {Area = "", id = restaurant.Id})">
+                        <img class="img col-lg-12 col-xl-12 col-md-12 d-lg-block d-xl-block d-md-block d-sm-none d-none" src="..@restaurant.BannerImageAddress"/>
+                        <img class="img d-lg-none d-xl-none d-md-none col-sm-8 col-8" src="..@restaurant.AvaterImageAddress"/>
+                    </a>
+
+                    <div class="text pt-4">
+                        <h3 class="text-center">
+                            <a href="@Url.Action("Menu", "Restaurants", new {Area = "", id = restaurant.Id})">@restaurant.Title</a>
+                        </h3>
+                        <span class="position mb-2">
+                            <a href="@Url.Action("Menu", "Restaurants", new {Area = "", id = restaurant.Id})">@restaurant.Title</a>
+                        </span>
+                        <div class="faded">
+                            <ul class="ftco-social d-flex">
+
+                                @{
+                                    if (restaurant.ShowRate)
+                                    {
+                                        <li class="ftco-animate">
+                                            @{
+                                                int i;
+                                                for (i = 1; i <= restaurant.RateScore; i++)
+                                                {
+                                                    <i class="fas fa-star"></i>
+                                                }
+
+                                                if (i - restaurant.RateScore >= 0.5F && i - restaurant.RateScore < 1)
+                                                {
+                                                    <i class="fad fa-star-half-alt"></i>
+                                                    i++;
+                                                }
+
+                                                for (; i < 5; i++)
+                                                {
+                                                    <i class="far fa-star"></i>
+                                                }
+                                            }
+                                        </li>
+                                    }
+                                }
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

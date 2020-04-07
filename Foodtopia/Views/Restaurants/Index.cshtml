@@ -3,136 +3,55 @@
 @{
     ViewData["Title"] = "خوشمزه پزی ها";
 }
+<section style="background-image: url(images/food_banner.jpg);">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" data-scrollax-parent="false">
+            <div class="col-md-12 col-sm-12 text-center ftco-animate">
+                <div style="text-shadow: #111 5px 0px 10px;">
+                    <h1 class="mb-4 mt-5 pt-5 text-white ">خوشمزه پزی ها</h1>
+                </div>
 
-<h1>Index</h1>
+                <div class="input-group pb-3 ml-auto mr-auto col col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="input-group-prepend">
+                        <div class="form-control input-group-text" id="btnGroupAddon">
+                            <i class="icon-search"></i>
+                        </div>
+                    </div>
+                    <input type="search" class="input-group-text form-control search-form" placeholder="دنبال کدوم خوشمزه پزی هستی" aria-describedby="btnGroupAddon" />
+                </div>
+            </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvaterImageAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BannerImageAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Longitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Latitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrimaryPhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondryPhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MobilePhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedByUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedByUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedByUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OwnerUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvaterImageAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BannerImageAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Longitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Latitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrimaryPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecondryPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MobilePhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedByUser.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedByUser.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedByUser.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OwnerUser.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City.Id)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        </div>
+    </div>
+</section>
+
+    <div class="row">
+        <div class="col col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+            <section class="ftco-section">
+                <div class="container">
+                    <div class="row justify-content-center mb-5 pb-2">
+                        <div class="col-md-7 text-center heading-section ftco-animate">
+                            <h2 class="mb-4">فیلتر ها</h2>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+        <div class="col col-12 col-sm-12 col-md-6 col-lg-8 col-xl-9">
+            <section class="ftco-section">
+                <div class="container">
+                    <div class="row justify-content-center mb-5 pb-2">
+                        <div class="col-md-7 text-center heading-section ftco-animate">
+                            <span class="subheading">خوشمزه پزی ها</span>
+                            <h2 class="mb-4">رستوران ها</h2>
+                        </div>
+                    </div>
+
+                    @await Component.InvokeAsync("RestaurantsList")
+
+                </div>
+            </section>
+        </div>
+    </div>
+
